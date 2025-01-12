@@ -175,13 +175,15 @@ namespace zlEqMatch {
         const std::array<std::array<float, pointNum> *, 3> dBs{&mainDBs, &targetDBs, &diffs};
         for (size_t i = 0; i < 3; ++i) {
             const auto y = (dBs[i]->at(0) / minDBs[i] + .5f) * height + boundY;
-            paths[i]->startNewSubPath(0.f, y);
+            if (!isnan(y))
+                paths[i]->startNewSubPath(0.f, y);
         }
         for (size_t idx = 1; idx < pointNum; ++idx) {
             const auto x = static_cast<float>(idx) / static_cast<float>(pointNum - 1) * width;
             for (size_t i = 0; i < 3; ++i) {
                 const auto y = (dBs[i]->at(idx) / minDBs[i] + .5f) * height + boundY;
-                paths[i]->lineTo(x, y);
+                if (!isnan(y))
+                    paths[i]->lineTo(x, y);
             }
         }
     }
